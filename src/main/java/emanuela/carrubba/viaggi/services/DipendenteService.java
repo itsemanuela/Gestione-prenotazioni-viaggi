@@ -4,8 +4,11 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import emanuela.carrubba.viaggi.dto.DipendenteDto;
 import emanuela.carrubba.viaggi.entities.Dipendente;
+import emanuela.carrubba.viaggi.exceptions.EmailException;
 import emanuela.carrubba.viaggi.exceptions.NotFoundException;
+import emanuela.carrubba.viaggi.exceptions.UserNameException;
 import emanuela.carrubba.viaggi.repositories.DipendenteRepository;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,6 +29,13 @@ public class DipendenteService {
     private DipendenteRepository dipendenteRepository;
 
     public Dipendente salvaDipendente(DipendenteDto dati) {
+        // verifico se l'email è già presente
+        if (dipendenteRepository.existsByEmail(dati.email())) {
+            throw new EmailException("L'email " + dati.email() + " è già in uso!");
+        }
+        if (dipendenteRepository.existsByUsername(dati.username())) {
+            throw new UserNameException("Lo username " + dati.username() + " è già preso!");
+        }
         Dipendente nuovoDipendente = new Dipendente();
 
         nuovoDipendente.setUsername(dati.username());

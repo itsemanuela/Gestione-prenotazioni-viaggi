@@ -41,7 +41,10 @@ public class PrenotazioneService {
         if (esisteGia) {
             throw new PrenotazioneEsistente("Prenotazione esistente!");
         }
-
+        //verifica incrociata, se esiste il dipendente associato a quel viaggio
+        if (prenotazioneRepository.existsByDipendente_IdAndViaggi_Id(richiesta.dipendenteId(), richiesta.viaggioId())) {
+            throw new PrenotazioneEsistente("Prenotazione già effettuata!");
+        }
 
         Dipendente dipendente = dipendenteRepository.findById(richiesta.dipendenteId())
                 .orElseThrow(() -> new NotFoundException("Dipendente non trovato con ID: " + richiesta.dipendenteId()));
@@ -50,6 +53,8 @@ public class PrenotazioneService {
                 .orElseThrow(() -> new NotFoundException("Viaggio non trovato con ID: " + richiesta.viaggioId()));
 
         // creo prenotazione
+        //controllo incrociato, vedo prima se esiste l'id del dipendente associato all'id del viaggio
+        //scelto, solo dopo prenoto
         Prenotazione nuovaPrenotazione = new Prenotazione();
         nuovaPrenotazione.setDipendente(dipendente);
         nuovaPrenotazione.setViaggi(viaggio);
