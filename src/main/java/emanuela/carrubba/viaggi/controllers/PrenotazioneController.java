@@ -39,5 +39,10 @@ public class PrenotazioneController {
         return prenotazioneService.findById(id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        prenotazioneService.findByIdAndDelete(id);
+    }
 
 }

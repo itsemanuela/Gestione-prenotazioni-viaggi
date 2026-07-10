@@ -70,5 +70,11 @@ public class PrenotazioneService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return prenotazioneRepository.findAll(pageable);
     }
+
+    //elimino prenotazione tramite id
+    public void findByIdAndDelete(Long id) {
+        Prenotazione found = this.findById(id);
+        prenotazioneRepository.delete(found);
+    }
     }
 

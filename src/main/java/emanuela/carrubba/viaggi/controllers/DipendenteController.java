@@ -49,6 +49,7 @@ public class DipendenteController {
 
     // PATCH: Aggiornamento parziale
     @PatchMapping("/{dipendenteId}/avatar")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Dipendente updateAvatar(@PathVariable Long dipendenteId, @RequestParam("picture") MultipartFile picture) {
         return dipendenteService.uploadAvatar(dipendenteId, picture);
     }
