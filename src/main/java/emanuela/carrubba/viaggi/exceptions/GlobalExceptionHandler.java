@@ -47,4 +47,13 @@ public class GlobalExceptionHandler {
                 HttpStatus.CONFLICT
         );
     }
+
+    //eliminazione dipendente con prenotazioni attive
+    @ExceptionHandler(EliminazioneDipendente.class)
+    public ResponseEntity<ErrorsDto>handleEliminazioneDipendente(EliminazioneDipendente ex) {
+        return new ResponseEntity<>(
+                new ErrorsDto(ex.getMessage(), LocalDateTime.now()),
+                HttpStatus.CONFLICT
+        );
+    }
 }

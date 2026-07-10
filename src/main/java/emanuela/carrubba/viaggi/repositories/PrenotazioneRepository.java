@@ -9,4 +9,5 @@ public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long
 
     boolean existsByDipendenteIdAndDataRichiesta(Long dipendenteId, LocalDate data);
     boolean existsByDipendente_IdAndViaggi_Id(Long dipendenteId, Long viaggioId);
+    boolean existsByDipendenteId(Long dipendenteId);
 }

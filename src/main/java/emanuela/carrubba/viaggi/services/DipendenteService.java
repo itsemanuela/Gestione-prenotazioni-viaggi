@@ -4,10 +4,12 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import emanuela.carrubba.viaggi.dto.DipendenteDto;
 import emanuela.carrubba.viaggi.entities.Dipendente;
+import emanuela.carrubba.viaggi.exceptions.EliminazioneDipendente;
 import emanuela.carrubba.viaggi.exceptions.EmailException;
 import emanuela.carrubba.viaggi.exceptions.NotFoundException;
 import emanuela.carrubba.viaggi.exceptions.UserNameException;
 import emanuela.carrubba.viaggi.repositories.DipendenteRepository;
+import emanuela.carrubba.viaggi.repositories.PrenotazioneRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,9 @@ public class DipendenteService {
 
     @Autowired
     private DipendenteRepository dipendenteRepository;
+
+    @Autowired
+    private PrenotazioneRepository prenotazioneRepository;
 
     public Dipendente salvaDipendente(DipendenteDto dati) {
         // verifico se l'email è già presente
@@ -93,6 +98,9 @@ nuovoDipendente.setAvatarUrl(dati.avatarUrl());
     //elimino
     public void findByIdAndDelete(Long id) {
         Dipendente found = this.findById(id);
+        if (prenotazioneRepository.existsByDipendenteId(id)) {
+            throw new EliminazioneDipendente("Impossibile eliminare il dipendente: ha prenotazioni attive!");
+        }
         dipendenteRepository.delete(found);
     }
 }
