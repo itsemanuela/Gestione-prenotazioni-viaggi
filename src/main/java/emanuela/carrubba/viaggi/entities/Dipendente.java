@@ -10,7 +10,7 @@ import lombok.ToString;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dipendenti")
+@Table
 @Getter
 @Setter
 @NoArgsConstructor

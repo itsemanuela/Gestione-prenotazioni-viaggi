@@ -3,5 +3,5 @@ package emanuela.carrubba.viaggi.repositories;
 import emanuela.carrubba.viaggi.entities.Dipendente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DipendenteRepository extends JpaRepository<Dipendente, Integer> {
+public interface DipendenteRepository extends JpaRepository<Dipendente, Long> {
 }

@@ -9,7 +9,7 @@ import lombok.ToString;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "prenotazioni")
+@Table
 @Getter
 @Setter
 @NoArgsConstructor
