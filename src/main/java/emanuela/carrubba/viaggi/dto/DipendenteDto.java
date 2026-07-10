@@ -17,5 +17,7 @@ public record DipendenteDto(
 
         @Email(message = "L'email deve avere un formato valido")
         @NotBlank(message = "L'email è obbligatoria")
-        String email
+        String email,
+
+        String avatarUrl
 ) {}
