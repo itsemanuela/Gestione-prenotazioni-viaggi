@@ -4,6 +4,7 @@ import emanuela.carrubba.viaggi.dto.DipendenteDto;
 import emanuela.carrubba.viaggi.entities.Dipendente;
 import emanuela.carrubba.viaggi.services.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,12 @@ public class DipendenteController {
         return dipendenteService.salvaDipendente(body);
     }
 
-    // GET: Lista completa
+    // GET: lista completa con paginazione
     @GetMapping
-    public List<Dipendente> findAll() {
-        return dipendenteService.findAll();
+    public Page<Dipendente> findAll(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "10") int size,
+                                    @RequestParam(defaultValue = "id") String sortBy) {
+        return dipendenteService.findAll(page, size, sortBy);
     }
 
     // GET: Singolo per ID

@@ -10,7 +10,13 @@ import emanuela.carrubba.viaggi.repositories.DipendenteRepository;
 import emanuela.carrubba.viaggi.repositories.PrenotazioneRepository;
 import emanuela.carrubba.viaggi.repositories.ViaggiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PrenotazioneService {
@@ -53,4 +59,16 @@ public class PrenotazioneService {
         // salvo
         return prenotazioneRepository.save(nuovaPrenotazione);
     }
-}
+
+    // cserco una prenotazione tramite ID
+    public Prenotazione findById(Long id) {
+        return prenotazioneRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Prenotazione con ID " + id + " non trovata"));
+    }
+
+    public Page<Prenotazione> findAll(int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return prenotazioneRepository.findAll(pageable);
+    }
+    }
+
